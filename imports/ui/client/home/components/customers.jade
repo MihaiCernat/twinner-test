@@ -1,5 +1,5 @@
 template(name="customers")
-    .table
+    .table($b=" if: customers.length")
         .title Customers
         .page-selector($b="if: moreThanOnePages")
             button.left($b="click: goBack, enable: isBackAvailable") Back
