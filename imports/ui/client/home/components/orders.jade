@@ -1,0 +1,56 @@
+template(name="orders")
+    .table
+        .title Orders
+        .page-selector($b="if: moreThanOnePages")
+            button.left($b="click: goBack, enable: isBackAvailable") Back
+            .page-text {{ getPageText }}
+            button.right($b="click: goForward, enable: isForwardAvailable") Forward
+        table
+            tr
+                th Customer
+                th Product
+                th Price per unit
+                th Units
+                th Total price
+                th Actions
+            tr
+                td.center
+                    input(placeholder="Search by customer" $b="value: customerSearch") 
+                td.center
+                    input(placeholder="Search by product" $b="value: productSearch") 
+                td
+                td
+                td
+                td.center
+                    button($b="click: search") Search
+            each orders
+                tr
+                    td {{ getAttribute this 'customer' 'name' }}
+                    td {{ getAttribute this 'product' 'name' }}
+                    td {{ getAttribute this 'product' 'price' }}
+                    td {{ this.units }}
+                    td {{ getTotalPrice(this) }}   
+                    td.center
+                        button($b="click: startEditing(this)") Edit 
+                        button($b="click: remove(this._id)") Remove
+
+    .form
+        .field
+            if editingOrderId
+                .title Edit
+            else
+                .title Create new order
+        .field  
+            select($b="options: customers, optionsValue: _id, optionsText: name, value: customerId, defaultText: 'Choose customer', if: customers.length")
+            .warning($b="if: !customers.length") You need to create at least a customer in order to create orders
+                button($b="click: createCustomer") Create customer
+        .field
+            select($b="options: products, optionsValue: _id, optionsText: name, value: productId, defaultText: 'Choose product', if: products.length")
+            .warning($b="if: !products.length") You need to create at least a customer in order to create orders
+                button($b="click: createProduct") Create product
+        .field
+            input(type="number" placeholder="Units" $b="value: units")
+        .submit
+            button($b="click: createOrder, enable: isFormValid, if: !editingOrderId") Create      
+            button($b="click: editOrder, enable: isFormValid, if: editingOrderId") Edit
+            button($b="click: clearFields") Cancel  

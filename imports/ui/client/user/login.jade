@@ -1,0 +1,13 @@
+template(name="login")
+    .header 
+        .title Twinner
+    .form.login
+        .field
+            .title Login
+        .field
+            input(placeholder="Email" type="email" $b="value: email")
+        .field
+            input(placeholder="Password" type="password" $b="value: password")
+        .submit
+            button($b="click: handleSubmit, enable: isFormValid") Login
+        a(href="/signup") Sign-up    

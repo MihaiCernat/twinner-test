@@ -1,0 +1,58 @@
+template(name="customers")
+    .table
+        .title Customers
+        .page-selector($b="if: moreThanOnePages")
+            button.left($b="click: goBack, enable: isBackAvailable") Back
+            .page-text {{ getPageText }}
+            button.right($b="click: goForward, enable: isForwardAvailable") Forward
+        table
+            tr
+                th Name
+                th Email
+                th Domain
+                th Address
+                th Phone
+                th Actions
+            tr
+                td.center
+                    input(placeholder="Search by name" $b="value: nameSearch") 
+                td.center
+                    input(placeholder="Search by email" $b="value: emailSearch") 
+                td.center
+                    input(placeholder="Search by domain" $b="value: domainSearch") 
+                td
+                td
+                td.center
+                    button($b="click: search") Search
+            each customers
+                tr
+                    td {{ this.name }}
+                    td {{ this.email }}
+                    td {{ this.domain }}
+                    td {{ this.address }}
+                    td {{ this.phoneNumber }}   
+                    td.center
+                        button($b="click: startEditing(this)") Edit 
+                        button($b="click: remove(this._id)") Remove
+
+    .form
+        .field
+            if editingCustomerId
+                .title Edit
+            else
+                .title Create new customer
+        .field
+            input(placeholder="Name" $b="value: name")   
+        .field
+            input(placeholder="Email" $b="value: email") 
+        .field
+            input(placeholder="Domain" $b="value: domain") 
+        .field
+            input(placeholder="Address" $b="value: address") 
+        .field
+            input(placeholder="Phone Number" $b="value: phoneNumber") 
+        .submit
+            button($b="click: createCustomer, enable: isFormValid, if: !editingCustomerId") Create      
+            button($b="click: editCustomer, enable: isFormValid, if: editingCustomerId") Edit
+            button($b="click: clearFields") Cancel              
+

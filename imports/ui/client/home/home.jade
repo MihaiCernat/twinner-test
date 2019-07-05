@@ -1,0 +1,16 @@
+template(name="home")
+    .header
+        .title Twinner
+        .header-right($b="if: currentUserEmail")
+            .user {{ currentUserEmail}}
+            .logout 
+                a(href="javascript:;" $b="click: logout") Logout
+
+    .view-switcher
+        .button($b="click: changeView('customers'), class: {current: isCurrentView('customers')}") Customers
+        .button($b="click: changeView('products'), class: {current: isCurrentView('products')}") Products
+        .button($b="click: changeView('orders'), class: {current: isCurrentView('orders')}") Orders
+
+    .home-content
+        +Template.dynamic(template=currentView)
+          
